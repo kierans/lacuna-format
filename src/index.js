@@ -13,6 +13,9 @@ const [
 	ObjectGetOwnPropertyNames,
 	ObjectIs,
 	ObjectPrototypeHasOwnProperty,
+  StringPrototypeCharCodeAt,
+  StringPrototypeSlice,
+  StringPrototypeSplit
 ] = [
 	JSON.stringify,
 	Number.parseFloat,
@@ -21,7 +24,10 @@ const [
 	Object.getPrototypeOf,
 	Object.getOwnPropertyNames,
 	Object.is,
-	Object.prototype.hasOwnProperty
+	Object.prototype.hasOwnProperty,
+  (str, index) => str.charCodeAt(index),
+  (str, start, end) => str.slice(start, end),
+  (str, sep, limit) => str.split(sep, limit)
 ];
 
 const builtInObjects = new Set(
@@ -29,7 +35,7 @@ const builtInObjects = new Set(
 );
 
 function format(...args) {
-	return formatWithOptionsInternal(undefined, args);
+  return formatWithOptionsInternal(undefined, args);
 }
 
 function formatWithOptionsInternal(inspectOptions, args) {
@@ -46,8 +52,8 @@ function formatWithOptionsInternal(inspectOptions, args) {
     let lastPos = 0;
 
     for (let i = 0; i < first.length - 1; i++) {
-      if (first.charCodeAt(i) === 37) { // '%'
-        const nextChar = first.charCodeAt(++i);
+      if (StringPrototypeCharCodeAt(first, i) === 37) { // '%'
+        const nextChar = StringPrototypeCharCodeAt(first, ++i);
         if (a + 1 !== args.length) {
           switch (nextChar) {
             case 115: // 's'
@@ -118,19 +124,19 @@ function formatWithOptionsInternal(inspectOptions, args) {
               tempStr = '';
               break;
             case 37: // '%'
-              str += first.slice(lastPos, i);
+              str += StringPrototypeSlice(first, lastPos, i);
               lastPos = i + 1;
               continue;
             default: // Any other character is not a correct placeholder
               continue;
           }
           if (lastPos !== i - 1) {
-            str += first.slice(lastPos, i - 1);
+            str += StringPrototypeSlice(first, lastPos, i - 1);
           }
           str += tempStr;
           lastPos = i + 1;
         } else if (nextChar === 37) {
-          str += first.slice(lastPos, i);
+          str += StringPrototypeSlice(first, lastPos, i);
           lastPos = i + 1;
         }
       }
@@ -140,7 +146,7 @@ function formatWithOptionsInternal(inspectOptions, args) {
       a++;
       join = ' ';
       if (lastPos < first.length) {
-        str += first.slice(lastPos);
+        str += StringPrototypeSlice(first, lastPos);
       }
     }
 
@@ -170,7 +176,6 @@ function formatNumber(fn, value) {
 function stylizeNoColor(str) {
 	return str;
 }
-
 
 function hasBuiltInToString(value) {
   // Prevent triggering proxy traps.
@@ -204,7 +209,8 @@ function hasBuiltInToString(value) {
     builtInObjects.has(descriptor.value.name);
 }
 
-const firstErrorLine = (error) => error.message.split('\n')[0];
+const firstErrorLine = (error) =>
+  StringPrototypeSplit(error.message, '\n', 1)[0];
 let CIRCULAR_ERROR_MESSAGE;
 function tryStringify(arg) {
   try {
