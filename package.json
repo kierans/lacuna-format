@@ -1,0 +1,32 @@
+{
+  "name": "lacuna-format",
+  "version": "1.0.0",
+  "description": "Nodes utils.format but without appending extra arguments",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kierans/lacuna-format"
+  },
+  "keywords": [
+    "utils",
+    "format",
+    "formatting"
+  ],
+  "author": "Kieran Simpson <kierans777@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kierans/lacuna-format/issues"
+  },
+  "homepage": "https://github.com/kierans/lacuna-format",
+  "devDependencies": {
+    "@types/mocha": "^9.0.0",
+    "hamjest": "^3.7.3",
+    "mocha": "^9.1.3"
+  }
+}
