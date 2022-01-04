@@ -45,5 +45,6 @@ Each major version of `lucana-format` will track a LTS version of Node. The test
 comparisons with the internal Node `util.format`.
 
 * 1.x - Node JS 12.22.8
+* 2.x - Node JS 14.18.2
 
 [1]: https://nodejs.org/docs/latest-v12.x/api/util.html#util_util_format_format_args

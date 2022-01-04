@@ -6,6 +6,8 @@ const { inspect } = require("util");
 // see https://stackoverflow.com/questions/59750976/what-are-primordials-in-node-js
 const [
 	JSONStringify,
+	NumberParseFloat,
+	NumberParseInt,
 	ObjectGetOwnPropertyDescriptor,
 	ObjectGetPrototypeOf,
 	ObjectGetOwnPropertyNames,
@@ -13,6 +15,8 @@ const [
 	ObjectPrototypeHasOwnProperty,
 ] = [
 	JSON.stringify,
+	Number.parseFloat,
+	Number.parseInt,
 	Object.getOwnPropertyDescriptor,
 	Object.getPrototypeOf,
 	Object.getOwnPropertyNames,
@@ -25,10 +29,10 @@ const builtInObjects = new Set(
 );
 
 function format(...args) {
-	return formatWithOptions(undefined, ...args);
+	return formatWithOptionsInternal(undefined, args);
 }
 
-function formatWithOptions(inspectOptions, ...args) {
+function formatWithOptionsInternal(inspectOptions, args) {
   const first = args[0];
   let a = 0;
   let str = '';
@@ -96,7 +100,8 @@ function formatWithOptions(inspectOptions, ...args) {
               } else if (typeof tempInteger === 'symbol') {
                 tempStr = 'NaN';
               } else {
-                tempStr = formatNumber(stylizeNoColor, parseInt(tempInteger));
+                tempStr = formatNumber(stylizeNoColor,
+                                       NumberParseInt(tempInteger));
               }
               break;
             case 102: // 'f'
@@ -104,7 +109,8 @@ function formatWithOptions(inspectOptions, ...args) {
               if (typeof tempFloat === 'symbol') {
                 tempStr = 'NaN';
               } else {
-                tempStr = formatNumber(stylizeNoColor, parseFloat(tempFloat));
+                tempStr = formatNumber(stylizeNoColor,
+                                       NumberParseFloat(tempFloat));
               }
               break;
             case 99: // 'c'

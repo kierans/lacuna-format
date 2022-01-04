@@ -1,6 +1,6 @@
 {
   "name": "lacuna-format",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Nodes utils.format but without appending extra arguments",
   "main": "src/index.js",
   "files": [
