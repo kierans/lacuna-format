@@ -15,7 +15,7 @@ format("This is a %s", "formatted message")
 ```
 
 The difference is that unlike Node's built in `format`, `lacuna-format` **ignores** extra 
-arguments. *lacunca* is a synonym for "ignored".
+arguments. *lacuna* is a synonym for "ignored".
 
 For example
 
