@@ -207,23 +207,23 @@ function hasBuiltInToString(value) {
 const firstErrorLine = (error) => error.message.split('\n')[0];
 let CIRCULAR_ERROR_MESSAGE;
 function tryStringify(arg) {
-	try {
-		return JSONStringify(arg);
-	} catch (err) {
-		// Populate the circular error message lazily
-		if (!CIRCULAR_ERROR_MESSAGE) {
-			try {
-				const a = {}; a.a = a; JSONStringify(a);
-			} catch (err) {
-				CIRCULAR_ERROR_MESSAGE = firstErrorLine(err);
-			}
-		}
-		if (err.name === 'TypeError' &&
-			firstErrorLine(err) === CIRCULAR_ERROR_MESSAGE) {
-			return '[Circular]';
-		}
-		throw err;
-	}
+  try {
+    return JSONStringify(arg);
+  } catch (err) {
+    // Populate the circular error message lazily
+    if (!CIRCULAR_ERROR_MESSAGE) {
+      try {
+        const a = {}; a.a = a; JSONStringify(a);
+      } catch (err) {
+        CIRCULAR_ERROR_MESSAGE = firstErrorLine(err);
+      }
+    }
+    if (err.name === 'TypeError' &&
+        firstErrorLine(err) === CIRCULAR_ERROR_MESSAGE) {
+      return '[Circular]';
+    }
+    throw err;
+  }
 }
 
 module.exports = {
